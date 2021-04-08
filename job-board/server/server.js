@@ -1,3 +1,4 @@
+const fs = require('fs')
 const {ApolloServer, gql} = require('apollo-server-express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -17,12 +18,8 @@ app.use(cors(), bodyParser.json(), expressJwt({
 
 // GraphQl Parts
 
-const typeDefs = gql`
-  #TODO
-`;
-
-const resolvers = {};
-
+const typeDefs = gql(fs.readFileSync('./schema.graphql', {encoding : 'utf8' }));
+const resolvers = require('./resolvers');npm start
 const apolloSerber = new ApolloServer({typeDefs, resolvers});
 apolloSerber.applyMiddleware({app, path: '/graphql'});
 
