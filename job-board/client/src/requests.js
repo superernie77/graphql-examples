@@ -24,3 +24,28 @@ export async function loadJobs(){
     return responseBody.data.jobs;
 
 }
+
+export async function loadJob(id){
+  const response = await fetch(endpointURL, {
+      method : 'POST',
+      header : {'content-type' : 'application/json'},
+      body : JSON.stringify({
+          query: `{
+              jobs 
+              {
+                id 
+                title
+                company {
+                  id
+                  name
+                }   
+                }
+            }
+          
+          `
+      })
+  });
+  const responseBody = await response.json();
+  return responseBody.data.jobs;
+
+}
