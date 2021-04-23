@@ -30,22 +30,22 @@ export async function loadJob(id){
       method : 'POST',
       header : {'content-type' : 'application/json'},
       body : JSON.stringify({
-          query: `{
-              jobs 
+          query: `query JobQuery($id : ID!) {
+              jobs(id: $id) 
               {
                 id 
                 title
                 company {
                   id
                   name
-                }   
                 }
-            }
-          
-          `
+                description   
+                }
+            }`,
+            variables : {id}
       })
   });
   const responseBody = await response.json();
-  return responseBody.data.jobs;
+  return responseBody.data.job;
 
 }
