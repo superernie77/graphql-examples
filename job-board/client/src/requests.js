@@ -1,3 +1,4 @@
+import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-boost';
 import {getAccessToken, isLoggedIn } from './auth';
 const endpointUrl = 'http:localhost:9000/graphql';
 
@@ -10,6 +11,11 @@ async function graphQlRequest(query, variables = {}){
   if (isLoggedIn()){
     request.headers['authorization'] = 'Bearer ' + getAccessToken();    
   }
+
+  const client = new ApolloClient({
+    link : new HttpLink({ uri : endpointUrl}),
+    cache : new InMemoryCache()
+  });
 
   const response = await fetch(endpointURL, request);
   const responseBody = await response.json();
