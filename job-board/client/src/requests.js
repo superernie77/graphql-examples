@@ -22,19 +22,24 @@ const client = new ApolloClient({
   });
 
 export async function createJob(input){
-  const mutation = gql`mutation CreateJob($input: createJobInput){
+  const mutation = gql`
+    mutation CreateJob($input: createJobInput){
     job: createJob(input: $input) {
-      id
+      id 
       title
-    }
+      company {
+        id
+        name
+      }
+      description   
   }
   `;
-  const {data : {job} } = await client.mutate({query, variables : {input}});
+  const {data : {job} } = await client.mutate({mutation, variables : {input}});
   return job;
 }
 
 export async function loadCompany(id){
-  const quesy = gql`query CompanyQuery($id: ID!){
+  const query = gql`query CompanyQuery($id: ID!){
     company(id: $id) {
       id
       name
