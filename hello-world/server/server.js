@@ -1,10 +1,7 @@
-const { ApolloServer, gql } = require('apollo-server');
+import { ApolloServer } from "apollo-server";
+import {startStandaloneServer } from "@apollo/server/stabdalone"
 
-const typeDefs = gql`
-    schema {
-        query : Query
-    }
-    
+const typeDefs = `#graphql 
     type Query {
         greeting : String
     }
@@ -17,4 +14,8 @@ const resolvers = {
 };
 
 const server = new ApolloServer({typeDefs, resolvers});
-server.listen({port : 9000}).then((serverInfo) => console.log(`Server running at ${serverInfo.url}`));
+
+const { url } = await startStandaloneServer(server, {listen :{port:9000}}) ;
+
+console.log("Server running at" + url);node server.j
+
