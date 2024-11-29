@@ -1,29 +1,21 @@
 type Query {
-    company(id:ID!): Company
-    job(id:ID!): Job
-    jobs : [Job]
+    jobs : [Job!]
 }
-
-type Mutation {
-    createJob(input : createJobInput): Job
-  }
 
 type Company {
     id : ID!
-    name: String
-    description : String
-    jobs : [Job]
+    name : String
+    description: String
 }
 
+"""
+Represents a Job from the DB
+"""
 type Job {
-    id : ID!
+    id: ID!
+    """ Comment for date property"""
+    date: String!
     title: String
-    company : Company
-    description : String
-}
-
-input createJobInput {
-    title: String
-    description : String
-
+    company: Company!
+    description: String
 }

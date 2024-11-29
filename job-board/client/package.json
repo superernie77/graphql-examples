@@ -7,15 +7,16 @@
     "build": "react-scripts build"
   },
   "dependencies": {
-    "apollo-boost": "^0.4.9",
-    "bulma": "0.9.2",
-    "graphql": "^15.5.0",
-    "react": "17.0.1",
-    "react-dom": "17.0.1",
-    "react-router-dom": "5.2.0"
+    "bulma": "^0.9.4",
+    "jwt-decode": "^4.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router": "^6.10.0",
+    "react-router-dom": "^6.10.0"
   },
   "devDependencies": {
-    "react-scripts": "4.0.3"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "react-scripts": "5.0.1"
   },
   "browserslist": {
     "production": [
@@ -27,6 +28,11 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
     ]
   }
 }

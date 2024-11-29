@@ -1,49 +1,52 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { isLoggedIn, logout } from './auth';
-import { CompanyDetail } from './CompanyDetail';
-import { LoginForm } from './LoginForm';
-import { JobBoard } from './JobBoard';
-import { JobDetail } from './JobDetail';
-import { JobForm } from './JobForm';
-import { NavBar } from './NavBar';
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
+import { Route, Routes } from 'react-router-dom';
+import { getUser } from './lib/auth';
+import NavBar from './components/NavBar';
+import CompanyPage from './pages/CompanyPage';
+import CreateJobPage from './pages/CreateJobPage';
+import HomePage from './pages/HomePage';
+import JobPage from './pages/JobPage';
+import LoginPage from './pages/LoginPage';
 
-export class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {loggedIn: isLoggedIn()};
-  }
+function App() {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(getUser);
 
-  handleLogin() {
-    this.setState({loggedIn: true});
-    this.router.history.push('/');
-  }
+  const handleLogin = (user) => {
+    setUser(user);
+    navigate('/');
+  };
 
-  handleLogout() {
-    logout();
-    this.setState({loggedIn: false});
-    this.router.history.push('/');
-  }
+  const handleLogout = () => {
+    setUser(null);
+    navigate('/');
+  };
 
-  render() {
-    const {loggedIn} = this.state;
-    return (
-      <Router ref={(router) => this.router = router}>
-        <div>
-          <NavBar loggedIn={loggedIn} onLogout={this.handleLogout.bind(this)} />
-          <section className="section">
-            <div className="container">
-              <Switch>
-                <Route exact path="/" component={JobBoard} />
-                <Route path="/companies/:companyId" component={CompanyDetail} />
-                <Route exact path="/jobs/new" component={JobForm} />
-                <Route path="/jobs/:jobId" component={JobDetail} />
-                <Route exact path="/login" render={() => <LoginForm onLogin={this.handleLogin.bind(this)} />} />
-              </Switch>
-            </div>
-          </section>
-        </div>
-      </Router>
-    );
-  }
+  return (
+    <>
+      <NavBar user={user} onLogout={handleLogout} />
+      <main className="section">
+        <Routes>
+          <Route index path="/"
+            element={<HomePage />}
+          />
+          <Route path="/companies/:companyId"
+            element={<CompanyPage />}
+          />
+          <Route path="/jobs/new"
+            element={<CreateJobPage />}
+          />
+          <Route path="/jobs/:jobId"
+            element={<JobPage />}
+          />
+          <Route path="/login"
+            element={<LoginPage onLogin={handleLogin} />}
+          />
+        </Routes>
+      </main>
+    </>
+  );
 }
+
+export default App;
